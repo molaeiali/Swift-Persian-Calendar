@@ -31,13 +31,13 @@ class CVCircleView: UIView {
         
         let center = CGPoint(x:(round(frame.size.width))/2, y:round(frame.size.height)/2)
         
-        context?.addArc(center: center, radius: radius, startAngle: 0, endAngle: CGFloat(Double.pi * 2.0), clockwise: true)
+        context?.addArc(center: center, radius: (radius - 10)/2, startAngle: 0, endAngle: CGFloat(Double.pi * 2.0), clockwise: true)
         
 //        CGContextAddArc(context, (frame.size.width)/2, frame.size.height/2, (radius - 10)/2, 0.0, CGFloat(M_PI * 2.0), 1)
         
         // Draw
         context?.setFillColor(self.color!.cgColor)
         context?.setStrokeColor(self.color!.cgColor)
-        context?.drawPath(using: .stroke)
+        context?.drawPath(using: .fillStroke)
     }
 }
