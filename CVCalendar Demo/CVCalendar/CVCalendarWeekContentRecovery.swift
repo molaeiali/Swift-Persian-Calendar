@@ -17,8 +17,8 @@ class CVCalendarWeekContentRecovery: NSObject {
     
     var weekContentView: CVCalendarWeekContentView!
     
-    private var monthViews: [MonthView]!
-    private var presentedMonthView: MonthView!
+    fileprivate var monthViews: [MonthView]!
+    fileprivate var presentedMonthView: MonthView!
     
     // MARK: - Initialization 
     
@@ -28,7 +28,7 @@ class CVCalendarWeekContentRecovery: NSObject {
     }
     
     // MARK: - Recovery Operations
-    func recoverMonthView(monthView: MonthView) {
+    func recoverMonthView(_ monthView: MonthView) {
         func hasDuplicate() -> Bool {
             for _monthView in monthViews {
                 if monthView == _monthView {
@@ -45,9 +45,9 @@ class CVCalendarWeekContentRecovery: NSObject {
         }
     }
 
-    private let limit = 3
+    fileprivate let limit = 3
     func flushIfNeeded() {
-        func recoveryAllowed(monthView: MonthView) -> Bool {
+        func recoveryAllowed(_ monthView: MonthView) -> Bool {
             if let weekViews = monthView.weekViews {
                 for weekView in weekViews {
                     for _weekView in weekContentView.weekViews.values {
@@ -63,7 +63,7 @@ class CVCalendarWeekContentRecovery: NSObject {
         }
         
         if monthViews.count == limit {
-            var endValue = monthViews.count
+            let endValue = monthViews.count
             var removalIndexes = [Int]()
             for i in 0 ..< endValue {
                 if i < endValue {
@@ -77,7 +77,7 @@ class CVCalendarWeekContentRecovery: NSObject {
             }
             
             for index in removalIndexes {
-                monthViews.removeAtIndex(index)
+                monthViews.remove(at: index)
             }
         }
     }

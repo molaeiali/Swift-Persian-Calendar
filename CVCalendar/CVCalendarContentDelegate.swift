@@ -2,25 +2,23 @@
 //  CVCalendarContentDelegate.swift
 //  CVCalendar Demo
 //
-//  Created by E. Mozharovsky on 1/28/15.
-//  Copyright (c) 2015 GameApp. All rights reserved.
-//
+
 
 import UIKit
 
 protocol CVCalendarContentDelegate {
     func updateFrames()
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView)
-    func scrollViewDidScroll(scrollView: UIScrollView)
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView)
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView)
+    func scrollViewDidScroll(_ scrollView: UIScrollView)
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView)
     
-    func performedDayViewSelection(dayView: CVCalendarDayView)
+    func performedDayViewSelection(_ dayView: CVCalendarDayView)
     
-    func presentNextView(dayView: CVCalendarDayView?)
-    func presentPreviousView(dayView: CVCalendarDayView?)
+    func presentNextView(_ dayView: CVCalendarDayView?)
+    func presentPreviousView(_ dayView: CVCalendarDayView?)
     
-    func updateDayViews(hidden: Bool)
+    func updateDayViews(_ hidden: Bool)
     
-    func togglePresentedDate(date: NSDate)
+    func togglePresentedDate(_ date: Date)
 }

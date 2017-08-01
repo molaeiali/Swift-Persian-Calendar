@@ -24,18 +24,18 @@ class CVCalendarViewAppearance: NSObject {
     
     var dayLabelPresentWeekdayInitallyBold: Bool = true
     
-    var dayLabelWeekdayInTextColor: UIColor? = .blackColor()
-    var dayLabelWeekdayOutTextColor: UIColor? = .grayColor()
-    var dayLabelWeekdayHighlightedBackgroundColor: UIColor? = .blueColor()
+    var dayLabelWeekdayInTextColor: UIColor? = .black
+    var dayLabelWeekdayOutTextColor: UIColor? = .gray
+    var dayLabelWeekdayHighlightedBackgroundColor: UIColor? = .blue
     var dayLabelWeekdayHighlightedBackgroundAlpha: CGFloat? = 0.6
-    var dayLabelPresentWeekdayTextColor: UIColor? = .redColor()
-    var dayLabelPresentWeekdayHighlightedBackgroundColor: UIColor? = .redColor()
+    var dayLabelPresentWeekdayTextColor: UIColor? = .red
+    var dayLabelPresentWeekdayHighlightedBackgroundColor: UIColor? = .red
     var dayLabelPresentWeekdayHighlightedBackgroundAlpha: CGFloat? = 0.6
     
-    var dayLabelWeekdayHighlightedTextColor: UIColor? = .whiteColor()
-    var dayLabelPresentWeekdayHighlightedTextColor: UIColor? = .whiteColor()
+    var dayLabelWeekdayHighlightedTextColor: UIColor? = .white
+    var dayLabelPresentWeekdayHighlightedTextColor: UIColor? = .white
     
-    var dotMarkerColor: UIColor? = .whiteColor()
+    var dotMarkerColor: UIColor? = .white
     var dotMarkerOffset: CGFloat? = 3.5
     
     var delegate: CVCalendarViewAppearanceDelegate? {
@@ -122,7 +122,7 @@ class CVCalendarViewAppearance: NSObject {
         }
     }
     
-    private override init() {
+    fileprivate override init() {
         super.init()
     }
 }

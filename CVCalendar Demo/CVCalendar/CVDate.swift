@@ -6,13 +6,13 @@
 import UIKit
 
 class CVDate: NSObject {
-    private let date: NSDate?
-    let year: Int?
-    let month: Int?
-    let week: Int?
-    let day: Int?
+    fileprivate var date: Date?
+    var year: Int?
+    var month: Int?
+    var week: Int?
+    var day: Int?
     let months = ["Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Day", "Bahman", "Esfand"]
-    init(date: NSDate) {
+    init(date: Date) {
         super.init()
         
         let calendarManager = CVCalendarManager.sharedManager
@@ -33,22 +33,23 @@ class CVDate: NSObject {
         self.day = day
     }
     
-    func description() -> String {
+    func description2() -> String {
 
         let myMonth:Int = self.month!
         let monthStr = self.months[myMonth - 1]
         
         return "\(monthStr), \(self.year!)"
     }
-    func convertToPersian() ->NSDate{
-        let calendar = NSCalendar(identifier: NSCalendarIdentifierPersian)!///
-        let components = calendar.components(NSCalendarUnit.YearCalendarUnit | NSCalendarUnit.MonthCalendarUnit | NSCalendarUnit.DayCalendarUnit, fromDate: date!)
-        let dateFormater = NSDateFormatter()
+    func convertToPersian() ->Date{
+        let calendar = Calendar(identifier: Calendar.Identifier.persian)///
+//        let components = calendar.components(NSCalendar.Unit.YearCalendarUnit | NSCalendar.Unit.MonthCalendarUnit | NSCalendar.Unit.DayCalendarUnit, fromDate: date!)
+        let components = calendar.dateComponents([.year,.weekOfMonth,.day], from: date!)
+        let dateFormater = DateFormatter()
         dateFormater.dateFormat = "yyyy-MM-dd"
-        let myMonth:Int = components.month
-        let myYear:Int = components.year
-        let myDay:Int = components.day
-        let str = dateFormater.dateFromString("\(myYear)-\(myMonth)-\(myDay)")!
+        let myMonth:Int = components.month!
+        let myYear:Int = components.year!
+        let myDay:Int = components.day!
+        let str = dateFormater.date(from: "\(myYear)-\(myMonth)-\(myDay)")!
         
         return str
     }

@@ -9,8 +9,8 @@ import UIKit
 protocol CVCalendarViewDelegate {
     func shouldShowWeekdaysOut() -> Bool
     
-    func didSelectDayView(dayView: CVCalendarDayView)
-    func presentedDateUpdated(date: CVDate)
+    func didSelectDayView(_ dayView: CVCalendarDayView)
+    func presentedDateUpdated(_ date: CVDate)
     
     func topMarker(shouldDisplayOnDayView dayView: CVCalendarDayView) -> Bool
     

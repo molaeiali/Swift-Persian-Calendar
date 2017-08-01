@@ -2,9 +2,7 @@
 //  CVCalendarContentViewController.swift
 //  CVCalendar Demo
 //
-//  Created by E. Mozharovsky on 1/28/15.
-//  Copyright (c) 2015 GameApp. All rights reserved.
-//
+
 
 import UIKit
 
@@ -22,38 +20,42 @@ class CVCalendarContentViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Private Properties
     
-    let calendarView: CalendarView!
+    var calendarView: CalendarView!
     var presentedMonthView: MonthView!
     
-    private let scrollView: UIScrollView!
-    private let delegate: ContentDelegate!
+    fileprivate var scrollView: UIScrollView!
+    fileprivate var delegate: ContentDelegate!
 
     // MARK: - Initialization 
     
-    init(calendarView: CalendarView, frame: CGRect) {
-        super.init()
+    init(calendarView: CalendarView, frame: CGRect, coder: NSCoder? = nil) {
+        if let coder = coder {
+            super.init(coder: coder)!
+        } else {
+            super.init(nibName: nil, bundle:nil)
+        }
         
         self.calendarView = calendarView
         self.scrollView = UIScrollView(frame: frame)
         
         // Setup Scroll View. 
-        scrollView.contentSize = CGSizeMake(frame.width * 3, frame.height)
+        scrollView.contentSize = CGSize(width: frame.width * 3, height: frame.height)
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.pagingEnabled = true
+        scrollView.isPagingEnabled = true
         scrollView.delegate = self
         
-        presentedMonthView = MonthView(calendarView: calendarView, date: NSDate())
+        presentedMonthView = MonthView(calendarView: calendarView, date: Date())///Not
         
-        if calendarView.calendarMode == CalendarMode.MonthView {
+        if calendarView.calendarMode == CalendarMode.monthView {
             delegate = MonthContent(contentController: self)
-            println("Scroll View: \(scrollView)")
+            print("Scroll View: \(scrollView)")
         } else {
             delegate = WeekContent(contentController: self)
-            println("Scroll View: \(scrollView)")
+            print("Scroll View: \(scrollView)")
         }
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
@@ -73,58 +75,58 @@ class CVCalendarContentViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Appearance Update 
     
-    func updateFrames(frame: CGRect) {
-        println("Updating 1")
+    func updateFrames(_ frame: CGRect) {
+        print("Updating 1")
         
         presentedMonthView.updateAppearance(frame)
         
         scrollView.frame = frame
-        scrollView.contentSize = CGSizeMake(frame.size.width * 3, frame.size.height)
+        scrollView.contentSize = CGSize(width: frame.size.width * 3, height: frame.size.height)
         
         delegate.updateFrames()
         
-        calendarView.hidden = false
+        calendarView.isHidden = false
     }
     
     // MARK: - Scroll View Delegate 
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate.scrollViewDidScroll(scrollView)
     }
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         delegate.scrollViewWillBeginDragging(scrollView)
     }
 
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         delegate.scrollViewDidEndDecelerating(scrollView)
     }
     
     // MARK: - Day View Selection
     
-    func performedDayViewSelection(dayView: DayView) {
+    func performedDayViewSelection(_ dayView: DayView) {
         delegate.performedDayViewSelection(dayView)
     }
     
     // MARK: - Toggle Date
     
-    func togglePresentedDate(date: NSDate) {
+    func togglePresentedDate(_ date: Date) {
         delegate.togglePresentedDate(date)
     }
     
     // MARK: - Paging 
     
-    func presentNextView(dayView: DayView?) {
+    func presentNextView(_ dayView: DayView?) {
         delegate.presentNextView(dayView)
     }
     
-    func presentPreviousView(dayView: DayView?) {
+    func presentPreviousView(_ dayView: DayView?) {
         delegate.presentPreviousView(dayView)
     }
     
     // MARK: - Days Out Showing
     
-    func updateDayViews(hidden: Bool) {
+    func updateDayViews(_ hidden: Bool) {
         delegate.updateDayViews(hidden)
     }
 }

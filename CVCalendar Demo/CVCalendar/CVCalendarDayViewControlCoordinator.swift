@@ -23,11 +23,11 @@ class CVCalendarDayViewControlCoordinator: NSObject {
        return CVCalendarViewAppearance.sharedCalendarViewAppearance
     }()
     
-    private override init() {
+    fileprivate override init() {
         super.init()
     }
     
-    func performDayViewSelection(dayView: CVCalendarDayView) {
+    func performDayViewSelection(_ dayView: CVCalendarDayView) {
         if let selectedDayView = self.selectedDayView {
             if selectedDayView != dayView {
                 if self.inOrderNumber < 2 {
@@ -45,19 +45,19 @@ class CVCalendarDayViewControlCoordinator: NSObject {
         }
     }
     
-    private func presentSelectionOnDayView(dayView: CVCalendarDayView) {
+    fileprivate func presentSelectionOnDayView(_ dayView: CVCalendarDayView) {
         self.animator?.animateSelection(dayView, withControlCoordinator: CVCalendarDayViewControlCoordinator.sharedControlCoordinator)
     }
     
-    private func presentDeselectionOnDayView(dayView: CVCalendarDayView) {
+    fileprivate func presentDeselectionOnDayView(_ dayView: CVCalendarDayView) {
         self.animator?.animateDeselection(dayView, withControlCoordinator: CVCalendarDayViewControlCoordinator.sharedControlCoordinator)
     }
     
     func animationStarted() {
-        self.inOrderNumber++
+        self.inOrderNumber += 1
     }
     
     func animationEnded() {
-        self.inOrderNumber--
+        self.inOrderNumber -= 1
     }
 }

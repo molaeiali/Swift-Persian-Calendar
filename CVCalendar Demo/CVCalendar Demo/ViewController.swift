@@ -23,14 +23,14 @@ class ViewController: UIViewController, CVCalendarViewDelegate, UITableViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = CVDate(date: NSDate()).description()
+        self.navigationItem.title = CVDate(date: Date()).description2()
         self.shouldShowDaysOut = false
         
-        let rightBarButton = UIBarButtonItem(image: UIImage(named: "present-100"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("menuClicked")) as UIBarButtonItem
+        let rightBarButton = UIBarButtonItem(image: UIImage(named: "present-100"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(ViewController.menuClicked)) as UIBarButtonItem
         self.navigationItem.rightBarButtonItem = rightBarButton
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         self.calendarView.commitCalendarViewUpdate()
@@ -43,8 +43,8 @@ class ViewController: UIViewController, CVCalendarViewDelegate, UITableViewDataS
         self.calendarView.toggleTodayMonthView()
     }
     
-    @IBAction func switchChanged(sender: UISwitch) {
-        if sender.on {
+    @IBAction func switchChanged(_ sender: UISwitch) {
+        if sender.isOn {
             self.calendarView!.changeDaysOutShowingState(false)
             self.shouldShowDaysOut = true
         } else {
@@ -63,21 +63,21 @@ class ViewController: UIViewController, CVCalendarViewDelegate, UITableViewDataS
         return self.shouldShowDaysOut
     }
     
-    func didSelectDayView(dayView: CVCalendarDayView) {
+    func didSelectDayView(_ dayView: CVCalendarDayView) {
         // TODO:
         let click_month:Int = dayView.date!.month!
         let click_day:Int = dayView.date!.day!
         let click_year:Int = dayView.date!.year!
-        println("click_ \(click_month)_\(click_day)_\(click_year)")
+        print("click_ \(click_month)_\(click_day)_\(click_year)")
         var sectionNum: Int
         if click_month > 7 {
             sectionNum  = 31 * 6 + (click_month - 7) * 30 + click_day - 1
         }else{
             sectionNum  = (click_month - 1)  * 31 + click_day - 1
         }
-        if (self.numberOfSectionsInTableView(table) > 0) {
-            var top = NSIndexPath(forRow: Foundation.NSNotFound, inSection: sectionNum)
-            self.table.scrollToRowAtIndexPath(top, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+        if (self.numberOfSections(in: table) > 0) {
+            let top = IndexPath(row: Foundation.NSNotFound, section: sectionNum)
+            self.table.scrollToRow(at: top, at: UITableViewScrollPosition.top, animated: true)
         }
     }
     
@@ -90,7 +90,7 @@ class ViewController: UIViewController, CVCalendarViewDelegate, UITableViewDataS
 //            return .blueColor()
 //        }
         
-        return .clearColor()
+        return .clear
     }
     
     func dotMarker(shouldShowOnDayView dayView: CVCalendarDayView) -> Bool {
@@ -110,35 +110,35 @@ class ViewController: UIViewController, CVCalendarViewDelegate, UITableViewDataS
     }
     
     
-    func presentedDateUpdated(date: CVDate) {
-        self.navigationItem.title = date.description()
+    func presentedDateUpdated(_ date: CVDate) {
+        self.navigationItem.title = date.description2()
     }
     
-    func toggleMonthViewWithMonthOffset(offset: Int) {
-        let calendar = NSCalendar.currentCalendar()
+    func toggleMonthViewWithMonthOffset(_ offset: Int) {
+        let calendar = Calendar.current
         let calendarManager = CVCalendarManager.sharedManager
-        let components = calendarManager.componentsForDate(NSDate()) // from today ///Not
-        println("components?!?!?!?! = \(components)")
-        components.month += offset
+        var components = calendarManager.componentsForDate(Date()) // from today ///Not
+        print("components?!?!?!?! = \(components)")
+        components.month! += offset
         
-        let resultDate = calendar.dateFromComponents(components)!
+        let resultDate = calendar.date(from: components)!
         
         self.calendarView.toggleMonthViewWithDate(resultDate)
     }
     /////////////////////////////////////////////////////////////////////////
     // MARK:  UITextFieldDelegate Methods
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 366
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(textCellIdentifier, forIndexPath: indexPath) as UITableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: textCellIdentifier, for: indexPath) as UITableViewCell
         
-        var row = indexPath.section
+        let row = indexPath.section
         // Put the holidays here
         switch (row) {
         case 0...3:
@@ -156,14 +156,14 @@ class ViewController: UIViewController, CVCalendarViewDelegate, UITableViewDataS
     
     
     // MARK:  UITableViewDelegate Methods
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let row = indexPath.row
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let  headerCell = tableView.dequeueReusableCellWithIdentifier("HeaderCell") as CustomHeaderCell
-        headerCell.backgroundColor = UIColor.cyanColor()
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let  headerCell = tableView.dequeueReusableCell(withIdentifier: "HeaderCell") as! CustomHeaderCell
+        headerCell.backgroundColor = UIColor.cyan
         
         var monthNum, dayNum : Int
         if section < 186 {

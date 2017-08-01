@@ -11,7 +11,7 @@ class CVCalendarMonthView: UIView {
     // MARK: - Public properties
 
     var calendarView: CVCalendarView?
-    var date: NSDate?
+    var date: Date?
     var numberOfWeeks: Int?
     var weekViews: [CVCalendarWeekView]?
     
@@ -22,8 +22,8 @@ class CVCalendarMonthView: UIView {
     
     // MARK: - Initialization 
 
-    init(calendarView: CVCalendarView, date: NSDate) {
-        super.init()
+    init(calendarView: CVCalendarView, date: Date) {
+        super.init(frame: calendarView.frame)
         
         self.calendarView = calendarView
         self.date = date
@@ -45,12 +45,12 @@ class CVCalendarMonthView: UIView {
         self.weeksIn = calendarManager.weeksWithWeekdaysForMonthDate(self.date!).weeksIn
         self.weeksOut = calendarManager.weeksWithWeekdaysForMonthDate(self.date!).weeksOut
         
-        self.currentDay = calendarManager.dateRange(NSDate()).day
+        self.currentDay = calendarManager.dateRange(Date()).day
     }
     
     // MARK: - Content filling
     
-    func updateAppearance(frame: CGRect) {
+    func updateAppearance(_ frame: CGRect) {
         self.frame = frame
         self.createWeekViews()
     }
@@ -70,7 +70,7 @@ class CVCalendarMonthView: UIView {
     
     // MARK: - Events receiving
     
-    func receiveDayViewTouch(dayView: CVCalendarDayView) {
+    func receiveDayViewTouch(_ dayView: CVCalendarDayView) {
         let controlCoordinator = CVCalendarDayViewControlCoordinator.sharedControlCoordinator
         controlCoordinator.performDayViewSelection(dayView)
         
@@ -98,7 +98,7 @@ class CVCalendarMonthView: UIView {
     
     // MARK: Content reload 
     
-    func reloadWeekViewsWithMonthFrame(frame: CGRect) {
+    func reloadWeekViewsWithMonthFrame(_ frame: CGRect) {
         self.frame = frame
         for i in 0..<self.weekViews!.count {
             let frame = CVCalendarRenderer.sharedRenderer().renderWeekFrameForMonthView(self, weekIndex: i)

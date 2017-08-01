@@ -8,6 +8,6 @@ import UIKit
 
 @objc
 protocol CVCalendarViewAnimatorDelegate {
-    func animateSelection(dayView: CVCalendarDayView, withControlCoordinator coordinator: CVCalendarDayViewControlCoordinator)
-    func animateDeselection(dayView: CVCalendarDayView, withControlCoordinator coordinator: CVCalendarDayViewControlCoordinator)
+    func animateSelection(_ dayView: CVCalendarDayView, withControlCoordinator coordinator: CVCalendarDayViewControlCoordinator)
+    func animateDeselection(_ dayView: CVCalendarDayView, withControlCoordinator coordinator: CVCalendarDayViewControlCoordinator)
 }

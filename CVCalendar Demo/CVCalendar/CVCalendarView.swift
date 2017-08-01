@@ -7,33 +7,33 @@
 import UIKit
 
 enum CVCalendarViewMode {
-    case MonthView
-    case WeekView
+    case monthView
+    case weekView
 }
 
 class CVCalendarView: UIView {
     
     // MARK: - Calendar Mode 
     
-    var calendarMode: CVCalendarViewMode = .MonthView
+    var calendarMode: CVCalendarViewMode = .monthView
     
     func loadCalendarMode() {
         let calendarModeKey = "CVCalendarViewMode"
-        let calendarMode = NSBundle.mainBundle().objectForInfoDictionaryKey(calendarModeKey) as? String
+        let calendarMode = Bundle.main.object(forInfoDictionaryKey: calendarModeKey) as? String
         
         if calendarMode != nil {
             if calendarMode! == "MonthView" {
-                if self.calendarMode != .MonthView {
-                    self.calendarMode = .MonthView
+                if self.calendarMode != .monthView {
+                    self.calendarMode = .monthView
                 }
             } else {
-                if self.calendarMode != .WeekView {
-                    self.calendarMode = .WeekView
+                if self.calendarMode != .weekView {
+                    self.calendarMode = .weekView
                 }
             }
         }
         
-        println("Mode is : \(calendarMode!)")
+        print("Mode is : \(calendarMode!)")
     }
     
     // MARK: - Current date 
@@ -56,7 +56,7 @@ class CVCalendarView: UIView {
     @IBOutlet var calendarDelegate: AnyObject? {
         set {
             if let calendarDelegate: AnyObject = newValue {
-                if calendarDelegate.conformsToProtocol(CVCalendarViewDelegate.self) {
+                if calendarDelegate.conforms(to: CVCalendarViewDelegate.self) {
                     self.delegate = calendarDelegate as? CVCalendarViewDelegate
                 }
             }
@@ -74,7 +74,7 @@ class CVCalendarView: UIView {
     @IBOutlet var calendarAppearanceDelegate: AnyObject? {
         set {
             if let calendarAppearanceDelegate: AnyObject = newValue {
-                if calendarAppearanceDelegate.conformsToProtocol(CVCalendarViewAppearanceDelegate.self) {
+                if calendarAppearanceDelegate.conforms(to: CVCalendarViewAppearanceDelegate.self) {
                     self.appearanceDelegate?.delegate = calendarAppearanceDelegate as? CVCalendarViewAppearanceDelegate
                 }
             }
@@ -92,7 +92,7 @@ class CVCalendarView: UIView {
     @IBOutlet var animatorDelegate: AnyObject? {
         set {
             if let animatorDelegate: AnyObject = newValue {
-                if animatorDelegate.conformsToProtocol(CVCalendarViewAnimatorDelegate.self) {
+                if animatorDelegate.conforms(to: CVCalendarViewAnimatorDelegate.self) {
                     self.animator = animatorDelegate as? CVCalendarViewAnimatorDelegate
                 }
             }
@@ -107,27 +107,27 @@ class CVCalendarView: UIView {
     
     // MARK: - Initialization
     
-    override init() {
-        super.init()
-        
-        hidden = true
-        loadCalendarMode()
-        contentController = CVCalendarContentViewController(calendarView: self, frame: bounds)
-    }
+//    override init() {
+//        super.init()
+//        
+//        isHidden = true
+//        loadCalendarMode()
+//        contentController = CVCalendarContentViewController(calendarView: self, frame: bounds)
+//    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        hidden = true
+        isHidden = true
         loadCalendarMode()
         contentController = CVCalendarContentViewController(calendarView: self, frame: bounds)
     }
 
     // IB Initialization
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
         
-        hidden = true
+        isHidden = true
         loadCalendarMode()
         contentController = CVCalendarContentViewController(calendarView: self, frame: bounds)
     }
@@ -136,11 +136,11 @@ class CVCalendarView: UIView {
     
     // MARK: - Calendar View Control
     
-    func changeDaysOutShowingState(shouldShow: Bool) {
+    func changeDaysOutShowingState(_ shouldShow: Bool) {
         contentController.updateDayViews(shouldShow)
     }
     
-    func didSelectDayView(dayView: CVCalendarDayView) {
+    func didSelectDayView(_ dayView: CVCalendarDayView) {
         self.delegate?.didSelectDayView(dayView)
         if contentController != nil {
             contentController.performedDayViewSelection(dayView)
@@ -156,12 +156,12 @@ class CVCalendarView: UIView {
         contentController.updateFrames(bounds)
     }
     
-    func toggleMonthViewWithDate(date: NSDate) {
+    func toggleMonthViewWithDate(_ date: Date) {
         contentController.togglePresentedDate(date)
     }
     
     func toggleTodayMonthView() {
-        contentController.togglePresentedDate(NSDate())
+        contentController.togglePresentedDate(Date())
     }
     
     func loadNextMonthView() {

@@ -2,20 +2,17 @@
 //  CVDate.swift
 //  CVCalendar
 //
-//  Created by Мак-ПК on 12/31/14.
-//  Copyright (c) 2014 GameApp. All rights reserved.
-//
 
 import UIKit
 
 class CVDate: NSObject {
-    private let date: NSDate?
-    let year: Int?
-    let month: Int?
-    let week: Int?
-    let day: Int?
-    
-    init(date: NSDate) {
+    fileprivate var date: Date?
+    var year: Int?
+    var month: Int?
+    var week: Int?
+    var day: Int?
+    let months = ["Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Day", "Bahman", "Esfand"]
+    init(date: Date) {
         super.init()
         
         let calendarManager = CVCalendarManager.sharedManager
@@ -36,12 +33,24 @@ class CVDate: NSObject {
         self.day = day
     }
     
-    func description() -> String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "MMMM"
+    func description2() -> String {
+
+        let myMonth:Int = self.month!
+        let monthStr = self.months[myMonth - 1]
         
-        let month = dateFormatter.stringFromDate(self.date!)
+        return "\(monthStr), \(self.year!)"
+    }
+    func convertToPersian() ->Date{
+        let calendar = Calendar(identifier: Calendar.Identifier.persian)///
+//        let components = calendar.components(NSCalendar.Unit.YearCalendarUnit | NSCalendar.Unit.MonthCalendarUnit | NSCalendar.Unit.DayCalendarUnit, fromDate: date!)
+        let components = calendar.dateComponents([.year,.weekOfMonth,.day], from: date!)
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "yyyy-MM-dd"
+        let myMonth:Int = components.month!
+        let myYear:Int = components.year!
+        let myDay:Int = components.day!
+        let str = dateFormater.date(from: "\(myYear)-\(myMonth)-\(myDay)")!
         
-        return "\(month), \(self.year!)"
+        return str
     }
 }

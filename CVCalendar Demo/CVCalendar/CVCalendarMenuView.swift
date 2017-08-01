@@ -16,12 +16,12 @@ class CVCalendarMenuView: UIView {
 //    let weeks = ["Doshanbeh", "Seshhanbeh", "Chaharshanbeh", "Panjshanbeh", "Jomeh", "Shanbeh", "Yek shanbeh"]
     let weeks = ["Sha", "Yek", "Dos", "Ses", "Cha", "Pan", "Jom"]
     
-    override init() {
-        super.init()
-        
-        self.setupWeekdaySymbols()
-        self.createDaySymbols()
-    }
+//    override init() {
+//        super.init()
+//        
+//        self.setupWeekdaySymbols()
+//        self.createDaySymbols()
+//    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,7 +31,7 @@ class CVCalendarMenuView: UIView {
     }
 
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
         
 
         self.setupWeekdaySymbols()
@@ -40,18 +40,19 @@ class CVCalendarMenuView: UIView {
     
     func setupWeekdaySymbols() {
         let propertyName = "CVCalendarStarterWeekday"
-        let firstWeekday = NSBundle.mainBundle().objectForInfoDictionaryKey(propertyName) as? Int
+        let firstWeekday = Bundle.main.object(forInfoDictionaryKey: propertyName) as? Int
         if firstWeekday != nil {
             self.starterWeekday = firstWeekday!
         } else {
-            let currentCalendar = NSCalendar.currentCalendar()
+            let currentCalendar = Calendar.current
             let firstWeekday = currentCalendar.firstWeekday
             self.starterWeekday = firstWeekday
         }
         
         
-        let calendar = NSCalendar(identifier: NSCalendarIdentifierPersian)!
-        calendar.components(NSCalendarUnit.MonthCalendarUnit | NSCalendarUnit.DayCalendarUnit, fromDate: NSDate())///Not
+        var calendar = Calendar(identifier: Calendar.Identifier.persian)
+//        calendar.components(NSCalendar.Unit.MonthCalendarUnit | NSCalendar.Unit.DayCalendarUnit, fromDate: Date())///Not
+        calendar.dateComponents([.month,.day], from: Date())///Not
         calendar.firstWeekday = self.starterWeekday
         
         symbols = calendar.weekdaySymbols as [String]
@@ -59,7 +60,7 @@ class CVCalendarMenuView: UIView {
     
     func createDaySymbols() {
         // Change symbols with their places if needed.
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
 //        dateFormatter.locate = NSLocate(locateIdentifier:"fa_IR")
 //        let IRLocal = NSLocate(indentifier: "fa_IR")!
 //        dateFormatter.locate = IRLocal
@@ -69,11 +70,11 @@ class CVCalendarMenuView: UIView {
         let firstWeekdayIndex = starterWeekday - 1
         if (firstWeekdayIndex > 0) {
             let copy = weekdays
-            weekdays = (weekdays.subarrayWithRange(NSMakeRange(firstWeekdayIndex, 7 - firstWeekdayIndex)))
-            weekdays = weekdays.arrayByAddingObjectsFromArray(copy.subarrayWithRange(NSMakeRange(0, firstWeekdayIndex)))
+            weekdays = (weekdays.subarray(with: NSMakeRange(firstWeekdayIndex, 7 - firstWeekdayIndex)) as NSArray)
+            weekdays = weekdays.addingObjects(from: copy.subarray(with: NSMakeRange(0, firstWeekdayIndex))) as NSArray
         }
         
-        self.symbols = weekdays as [String]
+        self.symbols = weekdays as! [String]
         
         // Add symbols.
         self.symbolViews = [UILabel]()
@@ -82,16 +83,16 @@ class CVCalendarMenuView: UIView {
         let height = self.frame.height
         
         var x: CGFloat = 0
-        var y: CGFloat = 0
+        let y: CGFloat = 0
         
         for i in 0..<7 {
             x = CGFloat(i) * width + space
             
-            let symbol = UILabel(frame: CGRectMake(x, y, width, height))
-            symbol.textAlignment = .Center
-            symbol.text = (self.weeks[i]).uppercaseString
-            symbol.font = UIFont.boldSystemFontOfSize(10) // may be provided as a delegate property
-            symbol.textColor = UIColor.darkGrayColor()
+            let symbol = UILabel(frame: CGRect(x: x, y: y, width: width, height: height))
+            symbol.textAlignment = .center
+            symbol.text = (self.weeks[i]).uppercased()
+            symbol.font = UIFont.boldSystemFont(ofSize: 10) // may be provided as a delegate property
+            symbol.textColor = UIColor.darkGray
             
             self.symbolViews?.append(symbol)
             self.addSubview(symbol)
@@ -104,12 +105,12 @@ class CVCalendarMenuView: UIView {
         let height = self.frame.height
         
         var x: CGFloat = 0
-        var y: CGFloat = 0
+        let y: CGFloat = 0
         
         for i in 0..<self.symbolViews!.count {
             x = CGFloat(i) * width + space
             
-            let frame = CGRectMake(x, y, width, height)
+            let frame = CGRect(x: x, y: y, width: width, height: height)
             let symbol = self.symbolViews![i]
             symbol.frame = frame
         }
