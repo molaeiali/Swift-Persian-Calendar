@@ -15,10 +15,13 @@ class ViewController: UIViewController, CVCalendarViewDelegate, UITableViewDataS
     @IBOutlet weak var table: UITableView!
     var shouldShowDaysOut = true
     var animationFinished = true
-    let months = ["Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Day", "Bahman", "Esfand"]
-    let weeks = [ "Shanbeh", "Yek shanbeh", "Doshanbeh", "Seshhanbeh", "Chaharshanbeh", "Panjshanbeh", "Jomeh"]
+    let months = ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"]
+//    let months = ["Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Day", "Bahman", "Esfand"]
+//    let weeks = [ "Shanbeh", "Yek shanbeh", "Doshanbeh", "Seshhanbeh", "Chaharshanbeh", "Panjshanbeh", "Jomeh"]
+    let weeks = [ "شنبه", "یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه"]
     /// put the holidays name
-    let holidays = ["Noruz", "mehrgan", "Sinzdah Be Dar"]
+    let holidays = ["نوروز", "مهرگان", "سیزده به در"]
+//    let holidays = ["Noruz", "mehrgan", "Sinzdah Be Dar"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,19 +85,19 @@ class ViewController: UIViewController, CVCalendarViewDelegate, UITableViewDataS
     }
     
     func dotMarker(colorOnDayView dayView: CVCalendarDayView) -> UIColor {
-//        if dayView.date?.day == 3 {
-//            return .redColor()
-//        } else if dayView.date?.day == 5 {
-//            return .blackColor()
-//        } else if dayView.date?.day == 2 {
-//            return .blueColor()
-//        }
+        if dayView.date?.day == 24 {
+            return .red
+        } else if dayView.date?.day == 5 {
+            return .green
+        } else if dayView.date?.day == 2 {
+            return .blue
+        }
         
         return .clear
     }
     
     func dotMarker(shouldShowOnDayView dayView: CVCalendarDayView) -> Bool {
-        if dayView.date?.day == 3 || dayView.date?.day == 5 || dayView.date?.day == 2 {
+        if dayView.date?.day == 24 || dayView.date?.day == 5 || dayView.date?.day == 2 {
             return true
         } else {
             return false
