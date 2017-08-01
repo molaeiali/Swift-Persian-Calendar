@@ -26,8 +26,8 @@ class CVCalendarManager: NSObject {
     var starterWeekday: Int?
     
     fileprivate override init() {
-        self.calendar = NSCalendar(identifier: NSCalendar.Identifier.gregorian)!
-//        self.calendar = NSCalendar(identifier: NSCalendar.Identifier.persian)///
+//        self.calendar = NSCalendar(identifier: NSCalendar.Identifier.gregorian)!
+        self.calendar = NSCalendar(identifier: NSCalendar.Identifier.persian)!
 //        self.currentDate = NSDate()
 //        self.components = self.calendar!.components(NSCalendarUnit.YearCalendarUnit | NSCalendarUnit.MonthCalendarUnit | NSCalendarUnit.DayCalendarUnit, fromDate: self.currentDate!)
         
