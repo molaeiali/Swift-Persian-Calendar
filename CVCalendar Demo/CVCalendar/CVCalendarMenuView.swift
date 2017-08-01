@@ -14,7 +14,8 @@ class CVCalendarMenuView: UIView {
     var symbols = [String]()
     var symbolViews: [UILabel]?
 //    let weeks = ["Doshanbeh", "Seshhanbeh", "Chaharshanbeh", "Panjshanbeh", "Jomeh", "Shanbeh", "Yek shanbeh"]
-    let weeks = ["Sha", "Yek", "Dos", "Ses", "Cha", "Pan", "Jom"]
+//    let weeks = ["Sha", "Yek", "Dos", "Ses", "Cha", "Pan", "Jom"]
+    let weeks = ["ش", "ی", "د", "س", "چ", "پ", "ج"]
     
 //    override init() {
 //        super.init()
